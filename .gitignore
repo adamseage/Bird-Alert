@@ -1,0 +1,19 @@
+# Python virtual environment
+.venv/
+
+# Secrets / environment variables
+.env
+
+# Python generated files
+__pycache__/
+*.pyc
+
+# VS Code local configuration
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Generated taxonomy cache
+taxonomy_data.json
