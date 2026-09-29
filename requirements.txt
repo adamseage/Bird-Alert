@@ -1,0 +1,5 @@
+folium==0.20.0
+python-dotenv==1.2.3
+requests==2.34.2
+streamlit==1.64.0
+streamlit-folium==0.26.2
