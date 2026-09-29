@@ -13,7 +13,9 @@ ui.render_header()
 
 ui.render_search_controls(taxonomy.get_species_common_names())
 
-map_data = ui.render_map()
+map_data = ui.render_map(
+    st.session_state.sightings
+)
 
 if map_data["last_clicked"] is not None:
     st.session_state.lat = map_data["last_clicked"]["lat"]
@@ -43,11 +45,13 @@ if st.button("Search"):
                                         radius_km=st.session_state.radius,
                                         days_back=st.session_state.days)
     st.session_state.has_searched = True
+    st.rerun()
 
 if (len(st.session_state.sightings)==0) and st.session_state.has_searched:
     st.write("No sightings found for the selected bird in the specified time frame and radius.") 
 elif not st.session_state.has_searched:
     st.write("Please select a bird and click 'Search' to find recent sightings.")
 else:
+    st.write(st.session_state.sightings[0]) # Testing here
     for sighting in st.session_state.sightings:
         st.write(f"Species: {sighting['comName']}, Location: {sighting['locName']}, Date: {sighting['obsDt']}")

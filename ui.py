@@ -10,7 +10,7 @@ def render_search_controls(common_names):
     st.selectbox(
         "Bird",
         common_names,
-        index=common_names.index("Sacred Kingfisher"),
+        index=common_names.index("Sacred Kingfisher") if "Sacred Kingfisher" in common_names else 0,
         key="bird"
     )
     st.selectbox(
@@ -26,7 +26,7 @@ def render_search_controls(common_names):
     )
     return
 
-def render_map():
+def render_map(sightings):
     map_object = folium.Map(
         location=[
             st.session_state.lat,
@@ -52,11 +52,25 @@ def render_map():
         fill=True,
         fill_opacity=0.2
     ).add_to(map_object)
+    for sighting in sightings:
+        popup_text = (
+            f"{sighting['comName']}<br>"
+            f"{sighting['locName']}<br>"
+            f"{sighting['obsDt']}"
+        )
+        folium.Marker(
+            icon=folium.Icon(color="beige"),
+            size="small",
+            location=[
+                sighting["lat"],
+                sighting["lng"]
+            ],
+            popup=popup_text
+        ).add_to(map_object)
 
     map_data = st_folium(
         map_object,
         width=700,
         height=450
     )
-
     return map_data

@@ -1,11 +1,36 @@
 import os
 from urllib import response
-import requests 
-from dotenv import load_dotenv, dotenv_values 
+import requests
+import streamlit as st
+from dotenv import load_dotenv, dotenv_values, 
 
 def get_API_key():
-    load_dotenv()  # Load environment variables from .env file
-    return os.getenv("EBIRD_API_KEY")
+    messages = [
+        "API Pulled from streamlit secrets",
+        "API not found in streamlit secrets, checking .env file",
+        "API Pulled from environment variable",
+        "NO API KEY FOUND, please add your eBird API key to the .env file or streamlit secrets",
+    ]
+
+    try:
+        api_key = st.secrets["EBIRD_API_KEY"]
+        if api_key:
+            print(messages[0])
+            return api_key
+    except:
+        print(messages[1])
+        pass
+
+    try:
+        load_dotenv()
+        api_key = os.getenv("EBIRD_API_KEY")
+        if api_key:
+            print(messages[2])
+            return api_key
+    except:
+        print(messages[3])
+        raise RuntimeError(messages[3])
+    return api_key
 
 def get_taxonomy_data():
     API_KEY = get_API_key()
