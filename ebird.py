@@ -2,7 +2,7 @@ import os
 from urllib import response
 import requests
 import streamlit as st
-from dotenv import load_dotenv, dotenv_values, 
+from dotenv import load_dotenv, dotenv_values
 
 def get_API_key():
     messages = [
@@ -12,6 +12,7 @@ def get_API_key():
         "NO API KEY FOUND, please add your eBird API key to the .env file or streamlit secrets",
     ]
 
+    # First Try Streamlit Secrets
     try:
         api_key = st.secrets["EBIRD_API_KEY"]
         if api_key:
@@ -21,16 +22,15 @@ def get_API_key():
         print(messages[1])
         pass
 
-    try:
+    # Next Try Environmnent Variable
         load_dotenv()
         api_key = os.getenv("EBIRD_API_KEY")
         if api_key:
             print(messages[2])
             return api_key
-    except:
-        print(messages[3])
-        raise RuntimeError(messages[3])
-    return api_key
+        else:
+            raise RuntimeError(messages[3])
+
 
 def get_taxonomy_data():
     API_KEY = get_API_key()
