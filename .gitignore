@@ -16,4 +16,5 @@ __pycache__/
 Thumbs.db
 
 # Generated taxonomy cache
+.streamlit/secrets.toml
 taxonomy_data.json

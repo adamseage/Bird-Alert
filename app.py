@@ -52,6 +52,5 @@ if (len(st.session_state.sightings)==0) and st.session_state.has_searched:
 elif not st.session_state.has_searched:
     st.write("Please select a bird and click 'Search' to find recent sightings.")
 else:
-    st.write(st.session_state.sightings[0]) # Testing here
     for sighting in st.session_state.sightings:
         st.write(f"Species: {sighting['comName']}, Location: {sighting['locName']}, Date: {sighting['obsDt']}")
